@@ -161,6 +161,91 @@ Sedang menempuh **S1 Sains Data** di Universitas Insan Cita Indonesia (IPK: 3.69
 - ✅ SQL Query Optimization
 - ✅ Data Pipeline Automation
 
+## 📊 Featured Projects
+
+### **1. Flight Delay Analysis Dashboard**
+**Technologies:** BigQuery SQL | Google Looker Studio | Data Analytics
+
+**Project Overview:**
+Comprehensive analysis of airline flight delay patterns using advanced SQL queries and interactive dashboard visualization.
+
+**SQL Analysis Performed:**
+- Data cleaning & validation with NULL checks and filtering
+- Average delay calculation by airline (GROUP BY, AVG, WHERE)
+- Time-of-day delay analysis using EXTRACT(HOUR) & CASE WHEN
+- Airport performance comparison (origin-based analysis)
+- Cancellation rate analysis by airline (SUM, COUNT aggregation)
+- Dashboard summary combining multiple metrics
+
+**Key Metrics Analyzed:**
+- Total Airlines: 109
+- On-Time Performance: 119 flights
+- Average Delay: 3,045 minutes
+- Cancellation Rate: 11 flights
+- Delay Categories: Small (1-30m), Medium (31-60m), Major (>60m)
+
+**Sample SQL Queries:**
+```sql
+-- Average Delay by Airline
+SELECT airline, ROUND(AVG(departure_delay), 2) AS avg_delay
+FROM `Data_Flight.data_flight`
+WHERE cancelled = 0
+GROUP BY airline
+ORDER BY avg_delay DESC;
+
+-- Delay by Time of Day
+SELECT 
+  CASE
+    WHEN EXTRACT(HOUR FROM scheduled_departure) BETWEEN 5 AND 11 THEN 'Morning'
+    WHEN EXTRACT(HOUR FROM scheduled_departure) BETWEEN 12 AND 17 THEN 'Afternoon'
+    ELSE 'Evening'
+  END AS time_of_day,
+  ROUND(AVG(departure_delay), 2) AS avg_delay
+FROM `Data_Flight.data_flight`
+WHERE cancelled = 0
+GROUP BY time_of_day
+ORDER BY avg_delay DESC;
+
+-- Cancellation Rate Summary
+SELECT 
+  airline,
+  COUNT(*) AS total_flights,
+  SUM(cancelled) AS total_cancelled,
+  ROUND(SUM(cancelled) * 100.0 / COUNT(*), 2) AS cancel_rate_percent
+FROM `Data_Flight.data_flight`
+GROUP BY airline
+ORDER BY cancel_rate_percent DESC;
+
+┌─────────────────────────────────────────────────────┐
+│  DATA COLLECTION                                    │
+│  (BigQuery Datasets, SQL Databases)                 │
+└────────────────┬────────────────────────────────────┘
+                 ▼
+┌─────────────────────────────────────────────────────┐
+│  DATA CLEANING & VALIDATION                         │
+│  (NULL checks, Data type validation, Filtering)     │
+└────────────────┬────────────────────────────────────┘
+                 ▼
+┌─────────────────────────────────────────────────────┐
+│  EXPLORATORY DATA ANALYSIS (EDA)                    │
+│  (Aggregation, Grouping, Statistical Analysis)     │
+└────────────────┬────────────────────────────────────┘
+                 ▼
+┌─────────────────────────────────────────────────────┐
+│  DATA TRANSFORMATION & FEATURE ENGINEERING          │
+│  (CASE WHEN, EXTRACT, Window Functions)            │
+└────────────────┬────────────────────────────────────┘
+                 ▼
+┌─────────────────────────────────────────────────────┐
+│  VISUALIZATION & DASHBOARD DEVELOPMENT              │
+│  (Looker Studio, Interactive Charts & KPIs)        │
+└────────────────┬────────────────────────────────────┘
+                 ▼
+┌─────────────────────────────────────────────────────┐
+│  INSIGHTS & RECOMMENDATIONS                         │
+│  (Business Intelligence, Data-Driven Decisions)    │
+└─────────────────────────────────────────────────────┘
+
 ---
 
 ## 👥 Pengalaman Organisasi
